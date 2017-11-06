@@ -1,3 +1,4 @@
+import socket
 import requests
 import json
 
@@ -43,7 +44,7 @@ EVENTS_URL = "https://myapi.bucknell.edu/framework/data/communication/event/?acc
 
 response = requests.get(EVENTS_URL)
 events = response.json()
-
+'''
 userResponse = ""
 
 audience = set()
@@ -65,3 +66,21 @@ while (userResponse != "q") :
   userResponse = input("Type a string to filter events by: ")
   filtered = filterEventsByTag(userResponse)
   print(filtered)
+  '''
+  
+
+HOST, PORT = '', 8888
+listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+listen_socket.bind((HOST, PORT))
+listen_socket.listen(1)
+print ('Serving HTTP on port %s ...' % PORT)
+while True:
+    client_connection, client_address = listen_socket.accept()
+    request = client_connection.recv(1024)
+    print(request)
+
+    http_response = json.dumps(events[0])
+    
+    client_connection.sendall(http_response.encode('utf-8'))
+    client_connection.close()
