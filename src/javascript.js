@@ -15,7 +15,12 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
 
-
+$.ajax({
+    url: "~/src/requestTest.py"
+}).done(function( o ) {
+       // do something
+       console.log(o);
+       });
 $('.responsive').slick({
   dots: true,
 	prevArrow: $('.prev'),
