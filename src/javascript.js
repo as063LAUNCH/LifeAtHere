@@ -2,9 +2,10 @@ var EVENTS_URL = "https://myapi.bucknell.edu/framework/data/communication/event/
 
 function logIn() {
 	//have javascript to log in now
-	var response = httpGet(EVENTS_URL);
+  console.log("Sending request");
+	var response = httpGet("http://localhost:8888");
+  console.log("Response received");
 	console.log(response);
-	console.log("Logging In");
 }
 
 function httpGet(theUrl)
@@ -15,12 +16,7 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
 
-$.ajax({
-    url: "~/src/requestTest.py"
-}).done(function( o ) {
-       // do something
-       console.log(o);
-       });
+/**
 $('.responsive').slick({
   dots: true,
 	prevArrow: $('.prev'),
@@ -58,3 +54,4 @@ $('.responsive').slick({
     // instead of a settings object
   ]
 });
+*/

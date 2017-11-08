@@ -79,8 +79,11 @@ while True:
     client_connection, client_address = listen_socket.accept()
     request = client_connection.recv(1024)
     print(request)
-
-    http_response = json.dumps(events[0])
+    http_response = "HTTP/1.0 200 OK\r\n"
+    http_response += "Access-Control-Allow-Origin: *\r\n"
+    #http_response += "Content-Type: text/plain"
+    http_response += "Content-Type: application.json\r\n\r\n"
+    http_response += json.dumps(events[0])
     
     client_connection.sendall(http_response.encode('utf-8'))
     client_connection.close()
