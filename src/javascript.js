@@ -24,7 +24,7 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
 
-var text = prompt("Filter your events");
+
 
 
 
