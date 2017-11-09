@@ -1,6 +1,9 @@
 import socket
 import requests
 import json
+from flask import Flask
+from flask import request
+from flask import jsonify
 
 ID = 'Id' # String
 TITLE = 'Title' # String
@@ -55,12 +58,7 @@ for event in events :
       audience.add(key)
 print(audience)
 
-def filterEventsByTag(filter) :
-  filteredEvents = []
-  for event in events :
-    if (filter.lower() in map(lambda x : x.lower(), event[AUDIENCE]['Tags'])) :
-      filteredEvents.append(event[TITLE])
-  return filteredEvents
+
 
 while (userResponse != "q") :
   userResponse = input("Type a string to filter events by: ")
@@ -68,7 +66,7 @@ while (userResponse != "q") :
   print(filtered)
   '''
   
-
+'''
 HOST, PORT = '', 8888
 listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -87,3 +85,37 @@ while True:
     
     client_connection.sendall(http_response.encode('utf-8'))
     client_connection.close()
+'''
+
+def filterEventsByTag(tempEvents, filter) :
+  filteredEvents = []
+  for event in tempEvents :
+    if (filter.lower() in map(lambda x : x.lower(), event[AUDIENCE]['Tags'])) :
+      filteredEvents.append(event)
+  return filteredEvents
+    
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+    
+@app.route('/yo')
+def yo():
+  return 'asdasfhjadfjlsa'
+  
+@app.route('/eventsQuery/<tags>')
+def queryEvents(tags):
+  tagsArray = tags.split("&")
+  filteredEvents = events
+  print(tagsArray)
+  for tag in tagsArray :
+    filteredEvents = filterEventsByTag(filteredEvents, tag)
+    print(filteredEvents)
+  response = jsonify(filteredEvents)
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  print("SENDING RESPONSE")
+  return response;
+
+if __name__ == '__main__':
+    app.run()

@@ -1,5 +1,3 @@
-var EVENTS_URL = "https://myapi.bucknell.edu/framework/data/communication/event/";
-
 function logIn() {
 	//have javascript to log in now
   console.log("Sending request");
@@ -9,22 +7,17 @@ function logIn() {
 }
 
 function GetEvents() {
-	//have javascript to log in now
   console.log("GetEvents");
-	var response = httpGet("http://localhost:8888");
+	var tags = ['family'];
+	var requestEnd = tags.join("&");
+	var response = httpGet("http://localhost:5000/eventsQuery/" + requestEnd);
   console.log("Response received");
 	console.log(response);
 }
 
-function httpGet(theUrl)
-{
+function httpGet(theUrl) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );
     return xmlHttp.responseText;
 }
-
-
-
-
-
