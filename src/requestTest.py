@@ -21,6 +21,7 @@ AUTHOR = 'Author' # String (?)
 BODY = 'Body' # String
 CREATION_TIME = 'CreationTime' # String
 AUDIENCE = 'Audience' # Dict -> {'Groups' (LIST), 'People' (LIST), 'Permissions' (LIST), 'Tags' (LIST)}
+
 '''
 These are the possible tags that we can filter by:
 
@@ -35,7 +36,6 @@ These are the possible tags that we can filter by:
 'Arts & Performance'
 '''
 
-
 PERIOD = 'Period' # Dict -> {'StartTime' (TIMESTAMP), 'EndTime' (TIMESTAMP)}
 STATUS = 'Status' # String
 IMPORTED = 'Imported' # Boolean
@@ -47,45 +47,6 @@ EVENTS_URL = "https://myapi.bucknell.edu/framework/data/communication/event/?acc
 
 response = requests.get(EVENTS_URL)
 events = response.json()
-'''
-userResponse = ""
-
-audience = set()
-for event in events :
-  keys = event[AUDIENCE]['Tags']
-  for key in keys:
-    if key not in audience:
-      audience.add(key)
-print(audience)
-
-
-
-while (userResponse != "q") :
-  userResponse = input("Type a string to filter events by: ")
-  filtered = filterEventsByTag(userResponse)
-  print(filtered)
-  '''
-  
-'''
-HOST, PORT = '', 8888
-listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-listen_socket.bind((HOST, PORT))
-listen_socket.listen(1)
-print ('Serving HTTP on port %s ...' % PORT)
-while True:
-    client_connection, client_address = listen_socket.accept()
-    request = client_connection.recv(1024)
-    print(request)
-    http_response = "HTTP/1.0 200 OK\r\n"
-    http_response += "Access-Control-Allow-Origin: *\r\n"
-    #http_response += "Content-Type: text/plain"
-    http_response += "Content-Type: application.json\r\n\r\n"
-    http_response += json.dumps(events[0])
-    
-    client_connection.sendall(http_response.encode('utf-8'))
-    client_connection.close()
-'''
 
 def filterEventsByTag(tempEvents, filter) :
   filteredEvents = []
@@ -93,7 +54,8 @@ def filterEventsByTag(tempEvents, filter) :
     if (filter.lower() in map(lambda x : x.lower(), event[AUDIENCE]['Tags'])) :
       filteredEvents.append(event)
   return filteredEvents
-    
+
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -103,7 +65,7 @@ def hello_world():
 @app.route('/yo')
 def yo():
   return 'asdasfhjadfjlsa'
-  
+
 @app.route('/eventsQuery/<tags>')
 def queryEvents(tags):
   tagsArray = tags.split("&")

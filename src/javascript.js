@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 function logIn() {
   //have javascript to log in now
   console.log("Sending request");
