@@ -2,6 +2,7 @@
 <html>
 <title>Calendar@BU</title>
 <head>
+<meta charset="utf-8"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="javascript.js"></script>
@@ -45,10 +46,9 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button onclick="logIn()">Search</button>
-      <button onclick="logIn()">Log in</button>
-      <button onclick="GetEvents()">Get Events</button>
+      <input class="form-control mr-sm-2" type="search" placeholder="Filter" aria-label="Search">
+      <button type="button" onClick="getEvents()">Get Events</button>
+      <button type="button" onclick="logIn()">Log in</button>
     </form>
   </div>
 </nav>
@@ -58,6 +58,15 @@
 </div>
 <div class="container-fluid">
   <h2>Popular Events for Fall 2017</h2>
+    <div class="row">
+      <p id="event1">Event 1<p>
+    </div>
+    <div class="row">
+      <p id="event2">Event 2</p>
+    </div>
+    <div class="row">
+      <p id="event3">Event 3</p>
+    </div>
     <div class="row">
       <div class="col-md-12 heroSlider-fixed">
         <div class="overlay">

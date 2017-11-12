@@ -55,7 +55,6 @@ def filterEventsByTag(tempEvents, filter) :
       filteredEvents.append(event)
   return filteredEvents
 
-
 app = Flask(__name__)
 
 @app.route('/')
@@ -70,13 +69,14 @@ def yo():
 def queryEvents(tags):
   tagsArray = tags.split("&")
   filteredEvents = events
+  print(filteredEvents)
   print(tagsArray)
   for tag in tagsArray :
     filteredEvents = filterEventsByTag(filteredEvents, tag)
-    print(filteredEvents)
   response = jsonify(filteredEvents)
   response.headers.add('Access-Control-Allow-Origin', '*')
   print("SENDING RESPONSE")
+  print(response)
   return response;
 
 if __name__ == '__main__':
