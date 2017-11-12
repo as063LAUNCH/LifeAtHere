@@ -1,18 +1,19 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 function logIn() {
-	//have javascript to log in now
+  //have javascript to log in now
   console.log("Sending request");
-	var response = httpGet("http://localhost:8888");
+  var response = httpGet("http://localhost:8888");
   console.log("Response received");
-	console.log(response);
+  console.log(response);
 }
 
 function GetEvents() {
   console.log("GetEvents");
-	var tags = ['family'];
-	var requestEnd = tags.join("&");
-	var response = httpGet("http://localhost:5000/eventsQuery/" + requestEnd);
+  var tags = ['family'];
+  var requestEnd = tags.join("&");
+  var response = httpGet("http://localhost:5000/eventsQuery/" + requestEnd);
   console.log("Response received");
-	console.log(response);
+  console.log(response);
 }
 
 function httpGet(theUrl) {
