@@ -55,6 +55,25 @@ def filterEventsByTag(tempEvents, filter) :
       filteredEvents.append(event)
   return filteredEvents
 
+
+def filterEventsByTime(tempEvents, filterMonthStart, filterDateStart, filterYearStart, \
+    filterMonthEnd, filterDateEnd, filterYearEnd ):
+  """
+  @tempEvents :
+  @year : String
+  @month : String
+  @day : String
+
+  Will return an events object with only the events whose time is on or past the variables indicated
+  """
+  filteredEvents = []
+  for event in tempEvents:
+    if eventYear >= filterYearStart and eventYear <= filterYearEnd:
+      if eventMonth >= filterMonthStart and eventMonth <= filterMonthEnd:
+        if eventDate >= filterDateStart and eventDate <= filterDateEnd:
+          filteredEvents.append(event)
+  return filteredEvents
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -69,15 +88,43 @@ def yo():
 def queryEvents(tags):
   tagsArray = tags.split("&")
   filteredEvents = events
-  print(filteredEvents)
-  print(tagsArray)
+  #print(filteredEvents)
+  #print(tagsArray)
   for tag in tagsArray :
     filteredEvents = filterEventsByTag(filteredEvents, tag)
   response = jsonify(filteredEvents)
   response.headers.add('Access-Control-Allow-Origin', '*')
-  print("SENDING RESPONSE")
-  print(response)
+  #print("SENDING RESPONSE")
+  #print(response)
   return response;
+
+@app.route('/eventsQueryByTime/<dates>')
+def queryEventsByTime(dates):
+  """
+  Assumes Dates will be in the format of MonthStart-DateStart-YearStart-MonthEnd-DateEnd-YearEnd
+  such as 3-1-2017-5-6-2018 , so any events from 3-1-2017 to 5-6-2018 inclusive
+  """
+  tagsArray = tags.split("-")
+  monthStart = int(tagsArray[0])
+  dateStart = int(tagsArray[1])
+  yearStart = int(tagsArray[2])
+  monthEnd = int(tagsArray[3])
+  dateEnd = int(tagsArray[4])
+  yearEnd = int(tagsArray[5])
+
+  filteredEvents = events
+  #print(filteredEvents)
+  #print(tagsArray)
+  for tag in tagsArray :
+    filteredEvents = filterEventsByTime(filteredEvents, monthStart, dateStart, yearStart\
+      monthEnd, dateEnd, yearEnd)
+
+  response = jsonify(filteredEvents)
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  #print("SENDING RESPONSE")
+  #print(response)
+  return response;
+
 
 if __name__ == '__main__':
     app.run()
