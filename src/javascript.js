@@ -12,8 +12,8 @@ function logIn() {
 
 function getEvents() {
   console.log("getEvents");
-  var tag = document.getElementById("eventsFilter");
-  //var tags = ['academic'];
+  //var tags = document.getElementById("eventsFilter");
+  var tags = ['academic'];
   var requestEnd = tags.join("&");
   
   var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + requestEnd);
