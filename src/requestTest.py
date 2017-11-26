@@ -116,13 +116,13 @@ def queryEventsByTime(dates):
   #print(filteredEvents)
   #print(tagsArray)
   for tag in tagsArray :
-    filteredEvents = filterEventsByTime(filteredEvents, monthStart, dateStart, yearStart\
-      monthEnd, dateEnd, yearEnd)
+    filteredEvents = filterEventsByTime(filteredEvents, monthStart, dateStart, yearStart \
+      , monthEnd, dateEnd, yearEnd)
 
   response = jsonify(filteredEvents)
   response.headers.add('Access-Control-Allow-Origin', '*')
-  #print("SENDING RESPONSE")
-  #print(response)
+  print("SENDING RESPONSE")
+  print(response)
   return response;
 
 

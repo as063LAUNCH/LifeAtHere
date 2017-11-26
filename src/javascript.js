@@ -10,6 +10,7 @@ function logIn() {
   console.log(response);
 }
 
+
 function getEvents() {
   console.log("getEvents");
   //var tags = document.getElementById("eventsFilter");
@@ -26,6 +27,29 @@ function getEvents() {
   document.getElementById("event3").innerHTML = html3;
   //httpGetAsynchronous("http://localhost:5000/eventsQuery/" + requestEnd);
 };
+
+function getEventsByDate() {
+  console.log("getEventsByDate");
+
+  /*
+    @Anushikha
+    Need to get front end to get user to pick the dates and pass it in like this format where 3-1-2017 is the
+    initial date inclusive and 5-6-2018 is the ending date inclusive. It will return all events including and
+    within these dates
+  */
+  var requestEnd = "3-1-2017-5-6-2018";
+  
+  var response = httpGetSynchronous("http://localhost:5000/eventsQueryByTime/" + requestEnd);
+  var responseObj = JSON.parse(response);
+  var html1 = responseObj[0]["Title"] + ": " + responseObj[0]["StartTime"] + " - " + responseObj[0]["EndTime"]
+  var html2 = responseObj[1]["Title"] + ": " + responseObj[1]["StartTime"] + " - " + responseObj[0]["EndTime"]
+  var html3 = responseObj[2]["Title"] + ": " + responseObj[2]["StartTime"] + " - " + responseObj[0]["EndTime"]
+  document.getElementById("event1").innerHTML = html1;
+  document.getElementById("event2").innerHTML = html2;
+  document.getElementById("event3").innerHTML = html3;
+  //httpGetAsynchronous("http://localhost:5000/eventsQuery/" + requestEnd);
+};
+
 
 function getEventsCallback(responseObj) {
   console.log("Response received, CALLBACK");
