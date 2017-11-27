@@ -4,6 +4,7 @@ import json
 from flask import Flask
 from flask import request
 from flask import jsonify
+from datetime import date
 
 ID = 'Id' # String
 TITLE = 'Title' # String
@@ -56,22 +57,22 @@ def filterEventsByTag(tempEvents, filter) :
   return filteredEvents
 
 
-def filterEventsByTime(tempEvents, filterMonthStart, filterDateStart, filterYearStart, \
-    filterMonthEnd, filterDateEnd, filterYearEnd ):
+def filterEventsByTime(tempEvents, dateStart, dateEnd):
   """
-  @tempEvents :
-  @year : String
-  @month : String
-  @day : String
+  @tempEvents : list of event
+  @dateStart : date object that is the starting range
+  @dateEnd : date object that is the ending range
 
-  Will return an events object with only the events whose time is on or past the variables indicated
+  Will return an events object with only the events whose time is on or past dates indicated
   """
   filteredEvents = []
   for event in tempEvents:
-    if eventYear >= filterYearStart and eventYear <= filterYearEnd:
-      if eventMonth >= filterMonthStart and eventMonth <= filterMonthEnd:
-        if eventDate >= filterDateStart and eventDate <= filterDateEnd:
-          filteredEvents.append(event)
+    meta = event["EventDate"][0:10].split("-") #getting date information
+    eventDate = date(int(meta[0]), int(meta[1]), int(meta[2])) #creating date object to use
+    if(eventDate >= dateStart and eventDate <= dateEnd):
+      print(event)
+      filteredEvents.append(event)
+
   return filteredEvents
 
 def getEventById(eventId):
@@ -86,53 +87,40 @@ app = Flask(__name__)
 
 @app.route('/eventsQuery/<tags>')
 def queryEvents(tags):
-  tagsArray = tags.split("&")
+  """
+  tags will be a query string in the format 
+  filterCag&filterCag2&...&filterCagN|startMonth&startDay&startYear&endMonth&endDay&endYear
+  """
+  conditions = tags.split("|") #creates an array [filterCategories, dates]
+  tagCatgeories = conditions[0].split("&")
+
   filteredEvents = events
-  #print(filteredEvents)
-  #print(tagsArray)
-  for tag in tagsArray :
+
+  for tag in tagCatgeories:
     filteredEvents = filterEventsByTag(filteredEvents, tag)
+
+
+  dateArray = conditions[1].split("-")
+  monthStart = int(dateArray[0])
+  dateStart = int(dateArray[1])
+  yearStart = int(dateArray[2])
+  startDate = date(yearStart, monthStart, dateStart) #Create the Starting Date object to filter by
+
+  monthEnd = int(dateArray[3])
+  dateEnd = int(dateArray[4])
+  yearEnd = int(dateArray[5])
+  endDate = date(yearEnd, monthEnd, dateEnd) #Create the Ending Date object to filter by
+
+  filteredEvents = filterEventsByTime(filteredEvents, startDate, endDate)
+
+
+
   response = jsonify(filteredEvents)
   response.headers.add('Access-Control-Allow-Origin', '*')
   #print("SENDING RESPONSE")
   #print(response)
   return response;
 
-@app.route('/eventsQueryByTime/<dates>')
-def queryEventsByTime(dates):
-  """
-  Assumes Dates will be in the format of MonthStart-DateStart-YearStart-MonthEnd-DateEnd-YearEnd
-  such as 3-1-2017-5-6-2018 , so any events from 3-1-2017 to 5-6-2018 inclusive
-  """
-  tagsArray = tags.split("-")
-  monthStart = int(tagsArray[0])
-  dateStart = int(tagsArray[1])
-  yearStart = int(tagsArray[2])
-  monthEnd = int(tagsArray[3])
-  dateEnd = int(tagsArray[4])
-  yearEnd = int(tagsArray[5])
-
-  filteredEvents = events
-  #print(filteredEvents)
-  #print(tagsArray)
-  for tag in tagsArray :
-    filteredEvents = filterEventsByTime(filteredEvents, monthStart, dateStart, yearStart \
-      , monthEnd, dateEnd, yearEnd)
-
-  response = jsonify(filteredEvents)
-  response.headers.add('Access-Control-Allow-Origin', '*')
-  print("SENDING RESPONSE")
-  print(response)
-  return response;
-
-@app.route('/eventQueryById/<eventId>')
-def queryEventById(eventId):
-  event = getEventById(eventId)
-  response = jsonify(event)
-  response.headers.add('Access-Control-Allow-Origin', '*')
-  #print("SENDING RESPONSE")
-  #print(response)
-  return response;
 
 if __name__ == '__main__':
     app.run()
