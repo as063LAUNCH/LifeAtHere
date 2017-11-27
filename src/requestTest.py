@@ -74,15 +74,15 @@ def filterEventsByTime(tempEvents, filterMonthStart, filterDateStart, filterYear
           filteredEvents.append(event)
   return filteredEvents
 
+def getEventById(eventId):
+  for event in events :
+    if event[ID] == eventId :
+      return event
+  return None;
+
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-    
-@app.route('/yo')
-def yo():
-  return 'asdasfhjadfjlsa'
+
 
 @app.route('/eventsQuery/<tags>')
 def queryEvents(tags):
@@ -125,6 +125,14 @@ def queryEventsByTime(dates):
   print(response)
   return response;
 
+@app.route('/eventQueryById/<eventId>')
+def queryEventById(eventId):
+  event = getEventById(eventId)
+  response = jsonify(event)
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  #print("SENDING RESPONSE")
+  #print(response)
+  return response;
 
 if __name__ == '__main__':
     app.run()
