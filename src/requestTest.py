@@ -83,14 +83,19 @@ def getEventById(eventId):
 
 app = Flask(__name__)
 
+@app.route('/eventsQuery/')
+def queryAllEvents():
+  response = jsonify(events)
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  #print("SENDING RESPONSE")
+  #print(response)
+  return response;
 
 
-@app.route('/eventsQuery/<tags>')
-def queryEvents(tags):
-  """
-  tags will be a query string in the format 
-  filterCag&filterCag2&...&filterCagN|startMonth&startDay&startYear&endMonth&endDay&endYear
-  """
+
+@app.route('/eventsQuery/<tag>')
+def queryEvents(tag):
+
   conditions = tags.split("|") #creates an array [filterCategories, dates]
   tagCatgeories = conditions[0].split("&")
 

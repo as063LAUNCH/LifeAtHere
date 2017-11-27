@@ -26,17 +26,22 @@ function getEvent(eventDescription) {
 
 function getEvents() {
   console.log("getEvents");
-  //var tags = document.getElementById("eventsFilter");
-  var tags = ['academic'];
-  var requestEnd = tags.join("&");
 
-  var requestEnd += "|"; //used for backend split to qeurey on multiple conditions
+  var select = document.getElementById("tag_filter");
+  var tag = select.options[select.value].text;
+  if (tag == "All Categories") {
+    tag = "";
+  }
 
-  var requestEnd += "3-1-2017-5-6-2018"; //
-  
-  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + requestEnd);
+  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + tag);
+  var response += "|"; //used for backend split to qeurey on multiple conditions
+  var response += "3-1-2017-5-6-2018"; //
+
   var responseObj = JSON.parse(response);
   currentEvents = responseObj;
+  
+  console.log(currentEvents);
+  
   var html1 = responseObj[0]["Title"] + ": " + responseObj[0]["StartTime"] + " - " + responseObj[0]["EndTime"];
   var html2 = responseObj[1]["Title"] + ": " + responseObj[1]["StartTime"] + " - " + responseObj[0]["EndTime"];
   var html3 = responseObj[2]["Title"] + ": " + responseObj[2]["StartTime"] + " - " + responseObj[0]["EndTime"];
@@ -61,6 +66,12 @@ function getEventsCallback(responseObj) {
     console.log(responseObj[2]['Title']);
   }
 };
+
+function handleFilterChange() {
+  var select = document.getElementById("tag_filter");
+  var tag = select.options[select.value].text;
+  document.getElementById("filter-display").placeholder = tag;
+}
 
 function httpGetAsynchronous(theUrl) {
   var xmlHttp = new XMLHttpRequest();
