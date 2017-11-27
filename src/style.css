@@ -429,6 +429,14 @@ canvas {
 }
 
 /**
+ * Make "button" links appear as plain text
+ */
+button.link { 
+  background:none !important;
+  border:none !important;
+}
+
+/**
  * Add the correct display in IE.
  */
 

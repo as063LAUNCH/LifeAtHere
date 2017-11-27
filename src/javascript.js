@@ -1,6 +1,7 @@
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 var LOGIN_URL = "https://myapi.bucknell.edu/framework/auth/signin/";
+var currentEvents = [];
 
 function logIn() {
   //have javascript to log in now
@@ -10,6 +11,18 @@ function logIn() {
   console.log(response);
 }
 
+function getEvent(eventDescription) {
+  var indexOfTime = eventDescription.lastIndexOf(": ");
+  var title = eventDescription.substr(0, indexOfTime);
+  var eventObj;
+  for (var i = 0; i < currentEvents.length; i+=1) {
+    if (currentEvents[i]["Title"] == title) {
+      eventObj = currentEvents[i];
+      break;
+    }
+  }
+  window.location.href = "event.html?eventId=" + eventObj["Id"];
+}
 
 function getEvents() {
   console.log("getEvents");
@@ -19,9 +32,10 @@ function getEvents() {
   
   var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + requestEnd);
   var responseObj = JSON.parse(response);
-  var html1 = responseObj[0]["Title"] + ": " + responseObj[0]["StartTime"] + " - " + responseObj[0]["EndTime"]
-  var html2 = responseObj[1]["Title"] + ": " + responseObj[1]["StartTime"] + " - " + responseObj[0]["EndTime"]
-  var html3 = responseObj[2]["Title"] + ": " + responseObj[2]["StartTime"] + " - " + responseObj[0]["EndTime"]
+  currentEvents = responseObj;
+  var html1 = responseObj[0]["Title"] + ": " + responseObj[0]["StartTime"] + " - " + responseObj[0]["EndTime"];
+  var html2 = responseObj[1]["Title"] + ": " + responseObj[1]["StartTime"] + " - " + responseObj[0]["EndTime"];
+  var html3 = responseObj[2]["Title"] + ": " + responseObj[2]["StartTime"] + " - " + responseObj[0]["EndTime"];
   document.getElementById("event1").innerHTML = html1;
   document.getElementById("event2").innerHTML = html2;
   document.getElementById("event3").innerHTML = html3;
@@ -41,9 +55,9 @@ function getEventsByDate() {
   
   var response = httpGetSynchronous("http://localhost:5000/eventsQueryByTime/" + requestEnd);
   var responseObj = JSON.parse(response);
-  var html1 = responseObj[0]["Title"] + ": " + responseObj[0]["StartTime"] + " - " + responseObj[0]["EndTime"]
-  var html2 = responseObj[1]["Title"] + ": " + responseObj[1]["StartTime"] + " - " + responseObj[0]["EndTime"]
-  var html3 = responseObj[2]["Title"] + ": " + responseObj[2]["StartTime"] + " - " + responseObj[0]["EndTime"]
+  var html1 = responseObj[0]["Title"] + ": " + responseObj[0]["StartTime"] + " - " + responseObj[0]["EndTime"];
+  var html2 = responseObj[1]["Title"] + ": " + responseObj[1]["StartTime"] + " - " + responseObj[0]["EndTime"];
+  var html3 = responseObj[2]["Title"] + ": " + responseObj[2]["StartTime"] + " - " + responseObj[0]["EndTime"];
   document.getElementById("event1").innerHTML = html1;
   document.getElementById("event2").innerHTML = html2;
   document.getElementById("event3").innerHTML = html3;
