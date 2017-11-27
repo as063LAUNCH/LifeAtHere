@@ -82,16 +82,21 @@ def getEventById(eventId):
 
 app = Flask(__name__)
 
+@app.route('/eventsQuery/')
+def queryAllEvents():
+  response = jsonify(events)
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  #print("SENDING RESPONSE")
+  #print(response)
+  return response;
 
 
-@app.route('/eventsQuery/<tags>')
-def queryEvents(tags):
-  tagsArray = tags.split("&")
+@app.route('/eventsQuery/<tag>')
+def queryEvents(tag):
   filteredEvents = events
-  #print(filteredEvents)
-  #print(tagsArray)
-  for tag in tagsArray :
-    filteredEvents = filterEventsByTag(filteredEvents, tag)
+  print("WHAT THE FUCL")
+  print(tag == "")
+  filteredEvents = filterEventsByTag(filteredEvents, tag)
   response = jsonify(filteredEvents)
   response.headers.add('Access-Control-Allow-Origin', '*')
   #print("SENDING RESPONSE")

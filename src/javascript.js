@@ -27,11 +27,16 @@ function getEvent(eventDescription) {
 function getEvents() {
   console.log("getEvents");
   var select = document.getElementById("tag_filter");
-  var tag = select.options[select.value];
-  
+  var tag = select.options[select.value].text;
+  if (tag == "All Categories") {
+    tag = "";
+  }
   var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + tag);
   var responseObj = JSON.parse(response);
   currentEvents = responseObj;
+  
+  console.log(currentEvents);
+  
   var html1 = responseObj[0]["Title"] + ": " + responseObj[0]["StartTime"] + " - " + responseObj[0]["EndTime"];
   var html2 = responseObj[1]["Title"] + ": " + responseObj[1]["StartTime"] + " - " + responseObj[0]["EndTime"];
   var html3 = responseObj[2]["Title"] + ": " + responseObj[2]["StartTime"] + " - " + responseObj[0]["EndTime"];
@@ -76,6 +81,12 @@ function getEventsCallback(responseObj) {
     console.log(responseObj[2]['Title']);
   }
 };
+
+function handleFilterChange() {
+  var select = document.getElementById("tag_filter");
+  var tag = select.options[select.value].text;
+  document.getElementById("filter-display").placeholder = tag;
+}
 
 function httpGetAsynchronous(theUrl) {
   var xmlHttp = new XMLHttpRequest();

@@ -47,17 +47,17 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control" type="search" placeholder="Filter" aria-label="Search">
+      <input class="form-control" placeholder="Filter By" id="filter-display" readonly aria-label="Search">
       <div class="input-group-btn">
       <div class="btn-group" role="group">
       <div class="dropdown dropdown-lg">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+      <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
       <div class="dropdown-menu dropdown-menu-right" role="menu">
                                 <form class="form-horizontal" role="form">
                                   <div class="form-group">
                                     <label for="filter">Filter by</label>
-                                    <select class="form-control" id="tag_filter">
-                                        <option value="0" selected>Categories</option>
+                                    <select class="form-control" id="tag_filter" onchange="handleFilterChange()">
+                                        <option value="0" selected>All Categories</option>
                                         <option value="1">Academic
                                         <option value="2">Recreation</option>
                                         <option value="3">Event</option>
@@ -77,11 +77,11 @@
                                 </form>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary" onClick="getEvents()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary search-button" onClick="getEvents()">Search<span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                     </div>
                 </div>
             </div>
-      <button type="button" onclick="logIn()">Log in</button>
+      <button type="button" class="login" onclick="logIn()">Log in</button>
     </form>
   </div>
 </nav>
