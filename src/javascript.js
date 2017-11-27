@@ -26,11 +26,10 @@ function getEvent(eventDescription) {
 
 function getEvents() {
   console.log("getEvents");
-  //var tags = document.getElementById("eventsFilter");
-  var tags = ['academic'];
-  var requestEnd = tags.join("&");
+  var select = document.getElementById("tag_filter");
+  var tag = select.options[select.value];
   
-  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + requestEnd);
+  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + tag);
   var responseObj = JSON.parse(response);
   currentEvents = responseObj;
   var html1 = responseObj[0]["Title"] + ": " + responseObj[0]["StartTime"] + " - " + responseObj[0]["EndTime"];

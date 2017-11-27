@@ -56,7 +56,7 @@
                                 <form class="form-horizontal" role="form">
                                   <div class="form-group">
                                     <label for="filter">Filter by</label>
-                                    <select class="form-control">
+                                    <select class="form-control" id="tag_filter">
                                         <option value="0" selected>Categories</option>
                                         <option value="1">Academic
                                         <option value="2">Recreation</option>
@@ -73,19 +73,14 @@
                                     <label for="contain">Date</label>
                                     <input class="form-control" type="text" />
                                   </div>
-                                  <div class="form-group">
-                                    <label for="contain">Group ID</label>
-                                    <input class="form-control" type="text" />
-                                  </div>
-                                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="false"></span></button>
                                 </form>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary" onClick="getEvents()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                     </div>
                 </div>
             </div>
-      <button type="button" onClick="getEvents()">Get Events</button>
       <button type="button" onclick="logIn()">Log in</button>
     </form>
   </div>
