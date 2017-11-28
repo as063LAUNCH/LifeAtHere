@@ -50,6 +50,12 @@ response = requests.get(EVENTS_URL)
 events = response.json()
 
 def filterEventsByTag(tempEvents, filter) :
+  """
+  @tempEvents : list of events to be filtered
+  @filter: the tag that must exist in an event for it to not be filtered.
+
+  Will return an events object with only the events with the correct tag filter.
+  """
   filteredEvents = []
   for event in tempEvents :
     if (filter.lower() in map(lambda x : x.lower(), event[AUDIENCE]['Tags'])) :
@@ -59,7 +65,7 @@ def filterEventsByTag(tempEvents, filter) :
 
 def filterEventsByTime(tempEvents, dateStart, dateEnd):
   """
-  @tempEvents : list of event
+  @tempEvents : list of events to be filtered
   @dateStart : date object that is the starting range
   @dateEnd : date object that is the ending range
 
@@ -117,15 +123,20 @@ def queryEvents(tag):
   endDate = date(yearEnd, monthEnd, dateEnd) #Create the Ending Date object to filter by
 
   filteredEvents = filterEventsByTime(filteredEvents, startDate, endDate)
-
-
-
   response = jsonify(filteredEvents)
   response.headers.add('Access-Control-Allow-Origin', '*')
   #print("SENDING RESPONSE")
   #print(response)
   return response;
 
+@app.route('/eventQueryById/<eventId>')
+def queryEventById(eventId):
+  event = getEventById(eventId)
+  response = jsonify(event)
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  #print("SENDING RESPONSE")
+  #print(response)
+  return response;
 
 if __name__ == '__main__':
     app.run()

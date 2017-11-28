@@ -1,7 +1,10 @@
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 var LOGIN_URL = "https://myapi.bucknell.edu/framework/auth/signin/";
-var currentEvents = [];
+var currentEvents = {};
+function mapCurrentEvents(eventObj) {
+  return [eventObj]
+}
 
 function logIn() {
   //have javascript to log in now
@@ -11,48 +14,57 @@ function logIn() {
   console.log(response);
 }
 
-function getEvent(eventDescription) {
-  var indexOfTime = eventDescription.lastIndexOf(": ");
-  var title = eventDescription.substr(0, indexOfTime);
-  var eventObj;
-  for (var i = 0; i < currentEvents.length; i+=1) {
-    if (currentEvents[i]["Title"] == title) {
-      eventObj = currentEvents[i];
-      break;
-    }
-  }
-  window.location.href = "event.html?eventId=" + eventObj["Id"];
+function loadMainPage() {
+  var events = getAllEvents();
+  var html1 = events[0]["Title"] + ": " + events[0]["StartTime"] + " - " + events[0]["EndTime"];
+  var html2 = events[1]["Title"] + ": " + events[1]["StartTime"] + " - " + events[0]["EndTime"];
+  var html3 = events[2]["Title"] + ": " + events[2]["StartTime"] + " - " + events[0]["EndTime"];
+  console.log(events[0]["Id"]);
+  console.log(events[1]["Id"]);
+  console.log(events[2]["Id"]);
+  document.getElementById("event1").innerHTML = html1;
+  $("#event1").data("idNum", events[0]["Id"]);
+  document.getElementById("event2").innerHTML = html2;
+  $("#event2").data("idNum", events[1]["Id"]);
+  document.getElementById("event3").innerHTML = html3;
+  $("#event3").data("idNum", events[2]["Id"]);
+}
+
+function getEvent(eventButtonId) {
+  var idString = $("#" + eventButtonId).data("idNum");
+  window.location.href = "event.html?eventId=" + idString;
+}
+
+function getAllEvents() {
+  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/");
+  return currentEvents = JSON.parse(response);
 }
 
 function getEvents() {
   console.log("getEvents");
 
   var select = document.getElementById("tag_filter");
-  var tag = select.options[select.value].text;
-  if (tag == "All Categories") {
-    tag = "";
+  var filters = select.options[select.value].text;
+  if (filters == "All Categories") {
+    filters = "";
   }
+  filters += "|"; //used for backend split to qeurey on multiple conditions
+  filters += "3-1-2017-5-6-2018";
 
-  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + tag);
-  var response += "|"; //used for backend split to qeurey on multiple conditions
-  var response += "3-1-2017-5-6-2018"; //
-
-  var responseObj = JSON.parse(response);
-  currentEvents = responseObj;
-  
-  console.log(currentEvents);
-  
-  var html1 = responseObj[0]["Title"] + ": " + responseObj[0]["StartTime"] + " - " + responseObj[0]["EndTime"];
-  var html2 = responseObj[1]["Title"] + ": " + responseObj[1]["StartTime"] + " - " + responseObj[0]["EndTime"];
-  var html3 = responseObj[2]["Title"] + ": " + responseObj[2]["StartTime"] + " - " + responseObj[0]["EndTime"];
-  document.getElementById("event1").innerHTML = html1;
-  document.getElementById("event2").innerHTML = html2;
-  document.getElementById("event3").innerHTML = html3;
+  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + filters);
+  return currentEvents = JSON.parse(response);
   //httpGetAsynchronous("http://localhost:5000/eventsQuery/" + requestEnd);
 };
 
-
-
+function updateEvents() {
+  var events = getEvents();
+  var html1 = events[0]["Title"] + ": " + events[0]["StartTime"] + " - " + events[0]["EndTime"];
+  var html2 = events[1]["Title"] + ": " + events[1]["StartTime"] + " - " + events[0]["EndTime"];
+  var html3 = events[2]["Title"] + ": " + events[2]["StartTime"] + " - " + events[0]["EndTime"];
+  document.getElementById("event1").innerHTML = html1;
+  document.getElementById("event2").innerHTML = html2;
+  document.getElementById("event3").innerHTML = html3;
+}
 
 function getEventsCallback(responseObj) {
   console.log("Response received, CALLBACK");
