@@ -105,11 +105,6 @@ def queryAllEvents():
   #print(response)
   return response;
 
-@app.route('/eventsQuery/<filters>')
-def queryEvents(filters):
-
-
-
 @app.route('/eventsQuery/<tag>')
 def queryEvents(tag):
 
