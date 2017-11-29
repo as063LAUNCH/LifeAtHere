@@ -28,7 +28,7 @@ function renderEventButtonHtml() {
   for (var i = 0; i < NUM_EVENTS; i += 1) {
     html += `
     <div class="row">
-      <button id="event` + i.toString() + `" data-idNum="` + i.toString() + `" class="link event-button" onClick="getEvent(this.id)" onmouseover="eventButtonHover(this.id)" onmouseleave="eventButtonLeave(this.id)"></button>
+      <button id="event` + i.toString() + `" data-idNum="` + i.toString() + `" class="event-button" onClick="getEvent(this.id)" onmouseover="eventButtonHover(this.id)" onmouseleave="eventButtonLeave(this.id)"></button>
     </div>`
   }
   document.getElementById("event-button-container").innerHTML = html;

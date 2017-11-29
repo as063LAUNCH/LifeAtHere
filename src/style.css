@@ -1,7 +1,3 @@
-button, link { 
-  background:none !important;
-  border:none !important;
-}
 body {
     padding-top: 50px;
 }
@@ -52,6 +48,8 @@ body {
 }
 
 .event-button {
+  background:none !important;
+  border:none !important;
   background-color: #efefef !important;
   margin-left: 15px;
   margin-top: 5px;
