@@ -45,6 +45,10 @@ body {
   float: right;
 }
 
+.top-align {
+  
+}
+
 @media screen and (min-width: 500px) {
     #adv-search {
         width: 500px;
