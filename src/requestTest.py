@@ -48,6 +48,14 @@ EVENTS_URL = "https://myapi.bucknell.edu/framework/data/communication/event/?acc
 
 response = requests.get(EVENTS_URL)
 events = response.json()
+### Get the unique locations, maybe we can find default images for them. ###
+'''
+locations = list(map((lambda e: e[LOCATIONS][0]["Location"]), events))
+uniqueLocations = set(locations)
+for location in uniqueLocations :
+  print(location)
+'''
+############################################################################
 
 def filterEventsByTag(tempEvents, filter) :
   """

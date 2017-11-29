@@ -37,6 +37,14 @@ body {
     background-color: #0082BA !important;
 }
 
+#event_image {
+  max-height: 400px;
+  max-width: 400px;
+  height: auto;
+  width: auto;
+  float: right;
+}
+
 @media screen and (min-width: 500px) {
     #adv-search {
         width: 500px;
