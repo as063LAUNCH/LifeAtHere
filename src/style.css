@@ -6,9 +6,15 @@ body {
     padding-top: 50px;
 }
 .dropdown.dropdown-lg .dropdown-menu {
-    margin-top: -1px;
+    margin-top: 0px;
     padding: 6px 20px;
+    overflow: visible;
 }
+
+.dropdown-menu {
+  overflow: visible;
+}
+
 .input-group-btn .btn-group {
     display: flex !important;
 }
@@ -45,8 +51,14 @@ body {
   float: right;
 }
 
-.top-align {
-  
+.event-button {
+  background-color: #efefef !important;
+  margin-left: 15px;
+  margin-top: 5px;
+}
+
+.hover {
+  color: #0082BA !important;
 }
 
 @media screen and (min-width: 500px) {

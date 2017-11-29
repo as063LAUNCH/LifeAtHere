@@ -1,7 +1,8 @@
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 var LOGIN_URL = "https://myapi.bucknell.edu/framework/auth/signin/";
-var currentEvents = {};
+const NUM_EVENTS = 10;
+
 function mapCurrentEvents(eventObj) {
   return [eventObj]
 }
@@ -14,20 +15,43 @@ function logIn() {
   console.log(response);
 }
 
+function updateEventButtonData(events) {
+  for (var i = 0; i < events.length; i += 1) {
+    var html = events[i]["Title"] + ": " + events[i]["StartTime"] + " - " + events[i]["EndTime"];
+    document.getElementById("event" + i.toString()).innerHTML = html;
+    $('#event' + i.toString()).data("idNum", events[i]["Id"]);
+  }
+}
+
+function renderEventButtonHtml() {
+  html = `<h2>Popular Events for Fall 2017</h2>`
+  for (var i = 0; i < NUM_EVENTS; i += 1) {
+    html += `
+    <div class="row">
+      <button id="event` + i.toString() + `" data-idNum="` + i.toString() + `" class="link event-button" onClick="getEvent(this.id)" onmouseover="eventButtonHover(this.id)" onmouseleave="eventButtonLeave(this.id)"></button>
+    </div>`
+  }
+  document.getElementById("event-button-container").innerHTML = html;
+}
+
 function loadMainPage() {
+  renderEventButtonHtml();
   var events = getAllEvents();
-  var html1 = events[0]["Title"] + ": " + events[0]["StartTime"] + " - " + events[0]["EndTime"];
-  var html2 = events[1]["Title"] + ": " + events[1]["StartTime"] + " - " + events[0]["EndTime"];
-  var html3 = events[2]["Title"] + ": " + events[2]["StartTime"] + " - " + events[0]["EndTime"];
-  console.log(events[0]["Id"]);
-  console.log(events[1]["Id"]);
-  console.log(events[2]["Id"]);
-  document.getElementById("event1").innerHTML = html1;
-  $("#event1").data("idNum", events[0]["Id"]);
-  document.getElementById("event2").innerHTML = html2;
-  $("#event2").data("idNum", events[1]["Id"]);
-  document.getElementById("event3").innerHTML = html3;
-  $("#event3").data("idNum", events[2]["Id"]);
+  updateEventButtonData(events.slice(0, NUM_EVENTS));
+}
+
+function loadEventsSearch() {
+  var events = getEvents();
+  updateEventButtonData(events.slice(0, NUM_EVENTS));
+}
+
+function eventButtonHover(eventButtonId) {
+  console.log("HOVERRRR");
+  document.getElementById(eventButtonId).classList.add("hover");
+}
+
+function eventButtonLeave(eventButtonId) {
+  document.getElementById(eventButtonId).classList.remove("hover");
 }
 
 function getEvent(eventButtonId) {
@@ -37,7 +61,7 @@ function getEvent(eventButtonId) {
 
 function getAllEvents() {
   var response = httpGetSynchronous("http://localhost:5000/eventsQuery/");
-  return currentEvents = JSON.parse(response);
+  return JSON.parse(response);
 }
 
 function getEvents() {
@@ -52,19 +76,9 @@ function getEvents() {
   filters += "3-1-2017-5-6-2018";
 
   var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + filters);
-  return currentEvents = JSON.parse(response);
+  return JSON.parse(response);
   //httpGetAsynchronous("http://localhost:5000/eventsQuery/" + requestEnd);
 };
-
-function updateEvents() {
-  var events = getEvents();
-  var html1 = events[0]["Title"] + ": " + events[0]["StartTime"] + " - " + events[0]["EndTime"];
-  var html2 = events[1]["Title"] + ": " + events[1]["StartTime"] + " - " + events[0]["EndTime"];
-  var html3 = events[2]["Title"] + ": " + events[2]["StartTime"] + " - " + events[0]["EndTime"];
-  document.getElementById("event1").innerHTML = html1;
-  document.getElementById("event2").innerHTML = html2;
-  document.getElementById("event3").innerHTML = html3;
-}
 
 function getEventsCallback(responseObj) {
   console.log("Response received, CALLBACK");

@@ -56,7 +56,7 @@
         <div class="btn-group" role="group">
           <div class="dropdown dropdown-lg">
             <button type="button" class="btn btn-default dropdown-toggle light-blue-background" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-              <div class="dropdown-menu dropdown-menu-right" role="menu">
+              <div class="dropdown-menu" role="menu">
                 <form class="form-horizontal" role="form">
                   <div class="form-group">
                     <label for="filter">Filter by</label>
@@ -77,11 +77,10 @@
                     <label for="contain">Date</label>
                     <input class="form-control" type="text" />
                   </div>
-                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="false"></span></button>
                 </form>
               </div>
             </div>
-            <button type="button" class="btn btn-primary light-blue-background" onClick="updateEvents()">Search<span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            <button type="button" class="btn btn-primary light-blue-background" onClick="loadEventsSearch()">Search<span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
           </div>
         </div>
       </div>
@@ -90,38 +89,9 @@
   </div>
 </nav>
 <div style="background:orange !important" class="jumbotron">
-  <h1>Calendar @ Bucknell University</h1> 
+  <h1>Calendar @ Bucknell University</h1>
   <p>See what's happening on your campus!</p> 
 </div>
-<div class="container-fluid">
-  <h2>Popular Events for Fall 2017</h2>
-  <div class="row">
-    <button id="event1" data-idNum="1" class="link" onClick="getEvent(this.id)">Event 1<p>
-  </div>
-  <div class="row">
-    <button id="event2" data-idNum="2" class="link" onClick="getEvent(this.id)">Event 2<p>
-  </div>
-  <div class="row">
-    <button id="event3" data-idNum="3" class="link" onClick="getEvent(this.id)">Event 3<p>
-  </div>
-  <div class="row">
-    <div class="col-md-12 heroSlider-fixed">
-      <div class="overlay">
-      </div>
-       <!-- Slider -->
-      <div class="slider responsive">
-        <div>
-          <img src="Migos.jpg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;"/>
-        </div> 
-        <div>
-          <img src="adam.jpg" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;"/>
-        </div>
-        <div>
-          <img src="firstnight.png" style="float: left; width: 30%; margin-right: 1%; margin-bottom: 0.5em;"/>
-        </div><p style="clear: both;"></p>
-      </div>   
-    </div>
-  </div>
-</div>
+<div class="container-fluid" id="event-button-container"></div>
 </body>
 </html>
