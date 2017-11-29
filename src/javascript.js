@@ -33,11 +33,8 @@ function getEvents() {
     tag = "";
   }
 
-  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + tag);
-  var response += "|"; //used for backend split to qeurey on multiple conditions
-  var response += "3-1-2017-5-6-2018"; //
-
-  var responseObj = JSON.parse(response);
+  requestString = httpGetSynchronous("http://localhost:5000/eventsQuery/" + tag + "&" + "3-1-2017-5-6-2018");
+  var responseObj = JSON.parse(requestString);
   currentEvents = responseObj;
   
   console.log(currentEvents);

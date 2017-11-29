@@ -96,13 +96,13 @@ def queryAllEvents():
 @app.route('/eventsQuery/<tag>')
 def queryEvents(tag):
 
-  conditions = tags.split("|") #creates an array [filterCategories, dates]
-  tagCatgeories = conditions[0].split("&")
+  conditions = tag.split("&") #creates an array [filterCategories, dates]
+  tagCatgeories = conditions[0]
 
   filteredEvents = events
 
-  for tag in tagCatgeories:
-    filteredEvents = filterEventsByTag(filteredEvents, tag)
+  if (tagCatgeories != ""):
+    filteredEvents = filterEventsByTag(filteredEvents, tagCatgeories)
 
 
   dateArray = conditions[1].split("-")
