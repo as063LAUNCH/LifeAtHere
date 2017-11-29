@@ -6,9 +6,15 @@ body {
     padding-top: 50px;
 }
 .dropdown.dropdown-lg .dropdown-menu {
-    margin-top: -1px;
+    margin-top: 0px;
     padding: 6px 20px;
+    overflow: visible;
 }
+
+.dropdown-menu {
+  overflow: visible;
+}
+
 .input-group-btn .btn-group {
     display: flex !important;
 }
@@ -33,8 +39,26 @@ body {
     border-bottom-left-radius: 4px;
 }
 
-.search-button {
-  background-color: #0082BA !important;
+.light-blue-background {
+    background-color: #0082BA !important;
+}
+
+#event_image {
+  max-height: 400px;
+  max-width: 400px;
+  height: auto;
+  width: auto;
+  float: right;
+}
+
+.event-button {
+  background-color: #efefef !important;
+  margin-left: 15px;
+  margin-top: 5px;
+}
+
+.hover {
+  color: #0082BA !important;
 }
 
 @media screen and (min-width: 500px) {

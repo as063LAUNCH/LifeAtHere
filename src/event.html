@@ -10,6 +10,7 @@
 <script type="text/javascript" src="eventScript.js"></script>
 <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
+<body onload="loadEventInfo()">
 <nav style="background:#003082 !important" class="navbar navbar-expand-lg navbar-light bg-light">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -49,15 +50,29 @@
     </ul>
   </div>
 </nav>
-
-<body onload="loadEventInfo()">
 <div style="background:orange !important" class="jumbotron">
   <h1 id="event_title"></h1>
 </div>
 <div class="container-fluid">
-  <h2 id="location" href="#"></h2>
-  <h3 id="date_start"></h3>
-  <h3 id="date_end"></h3>
+  <table>
+    <col width="50%">
+    <col width="50%">
+    <tr>
+      <td valign="top">
+        <h5 id="date"></h5>
+        <h5 id="time_start_end"></h5>
+        <h5 id="location"></h5>
+      </td>
+      <td><img id="event_image" class=""></img></td>
+    </tr>
+  </table>
+</div>
+<div class="container-fluid">
+  <table>
+    <tr>
+      <button 
+    </tr>
+  </table>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
