@@ -119,14 +119,17 @@ def queryAllEvents():
   #print(response)
   return response;
 
-@app.route('/eventsQuery/<filters>')
-def queryEvents(filters):
+@app.route('/eventsQuery/<tag>')
+def queryEvents(tag):
 
-  conditions = filters.split("|") #creates an array [filterCategories, dates]
-  tag = conditions[0]
+  conditions = tag.split("&") #creates an array [filterCategories, dates]
+  tagCatgeories = conditions[0]
 
   filteredEvents = events
-  filteredEvents = filterEventsByTag(filteredEvents, tag)
+
+  if (tagCatgeories != ""):
+    filteredEvents = filterEventsByTag(filteredEvents, tagCatgeories)
+
 
   dateArray = conditions[1].split("-")
   monthStart = int(dateArray[0])
