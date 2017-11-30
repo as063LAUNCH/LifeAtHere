@@ -83,8 +83,11 @@ def filterEventsByTime(tempEvents, dateStart, dateEnd):
   for event in tempEvents:
     meta = event["EventDate"][0:10].split("-") #getting date information
     eventDate = date(int(meta[0]), int(meta[1]), int(meta[2])) #creating date object to use
-    if(eventDate >= dateStart and eventDate <= dateEnd):
-      print(event)
+
+    if(eventDate >= dateStart and type(dateEnd) == bool): #if dateEnd is boolean, no end date to compare to
+      filteredEvents.append(event)
+      
+    elif(eventDate >= dateStart and type(dateEnd) != bool and eventDate <= dateEnd):
       filteredEvents.append(event)
 
   return filteredEvents
@@ -107,6 +110,10 @@ def queryAllEvents():
 
 @app.route('/eventsQuery/<tag>')
 def queryEvents(tag):
+  """
+  @param tag: string in the format of category&startMonth-startDate-startYear-endMonth-endDate-endYear
+  Takes in a query from <tag> and pulls the events from Bucknell API based on their tag
+  """
 
   conditions = tag.split("&") #creates an array [filterCategories, dates]
   tagCatgeories = conditions[0]
@@ -126,7 +133,12 @@ def queryEvents(tag):
   monthEnd = int(dateArray[3])
   dateEnd = int(dateArray[4])
   yearEnd = int(dateArray[5])
-  endDate = date(yearEnd, monthEnd, dateEnd) #Create the Ending Date object to filter by
+
+  if monthEnd == 0 and dateEnd == 0 and yearEnd == 0:
+    print("Month end = " + str(monthEnd))
+    endDate = False #Just get all events after the Start Date
+  else:
+    endDate = date(yearEnd, monthEnd, dateEnd) #Create the Ending Date object to filter by
 
   filteredEvents = filterEventsByTime(filteredEvents, startDate, endDate)
   response = jsonify(filteredEvents)
