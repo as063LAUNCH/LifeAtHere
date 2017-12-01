@@ -20,6 +20,53 @@ function loadEventInfo() {
   return true;
 }
 
+function toggleHidden(elementId) {
+  if (document.getElementById(elementId).classList.contains("hidden")) {
+    document.getElementById(elementId).classList.remove("hidden");
+  } else {
+    document.getElementById(elementId).classList.add("hidden");
+  }
+}
+
+function inviteFriend() {
+  toggleHidden("email_container");
+}
+
+function unredify() {
+  document.getElementById("send_email_button").textContent = "Send Email";
+  document.getElementById("send_email_button").classList.remove("red");
+  // This is set to true when the email is sent.
+  document.getElementById("send_email_button").disabled = false;
+}
+
+function sendEmail() {
+  var sender = document.getElementById("user_email").value;
+  var recipient = document.getElementById("recipient_email").value;
+  var message = document.getElementById("email_message").value;
+  var emailSafety = checkEmailSafety(sender, recipient);
+  if (emailSafety) { // Indicates a BAD email structure
+    document.getElementById("send_email_button").textContent = emailSafety;
+    document.getElementById("send_email_button").classList.add("red");
+  } else {
+    // Make email request.
+    document.getElementById("send_email_button").textContent = "Email Sent!";
+    document.getElementById("send_email_button").disabled = true; // No double clicking asshole!
+  }
+}
+
+// Following regex found online:
+var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+function checkEmailSafety(sender, recipient) {
+  console.log(sender, recipient);
+  if (!emailRegex.test(sender)) {
+    return "Bad Sender Email";
+  } else if (!emailRegex.test(recipient)) {
+    return "Bad Recipient Email";
+  } else {
+    return false;
+  }
+}
+
 function getDateString(dayOfWeek, day, month, year) {
   dateString = "";
   switch(dayOfWeek) {
