@@ -61,15 +61,25 @@
             <button type="button" class="btn btn-default dropdown-toggle light-blue-background" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
               <div class="dropdown-menu" role="menu">
                 <form class="form-horizontal" role="form">
-                      <option value="0">Academic
-                      <option value="1">Recreation</option>
-                      <option value="2">Event</option>
-                      <option value="3">Family</option>
-                      <option value="4">Religious</option>
-                      <option value="5">Sports</option>
-                      <option value="6">Students Clubs and Organizations</option>
-                      <option value="7">Staff</option>
-                      <option value="8">Arts and Performance</option>
+                  <div class="form-group">
+                    <label for="filter">Filter by</label>
+                    <select class="form-control" id="tag_filter" onchange="handleFilterChange()">
+                      <option value="0" selected>All Categories</option>
+                      <option value="1">Academic
+                      <option value="2">Recreation</option>
+                      <option value="3">Event</option>
+                      <option value="4">Family</option>
+                      <option value="5">Religious</option>
+                      <option value="6">Sports</option>
+                      <option value="7">Students Clubs and Organizations</option>
+                      <option value="8">Staff</option>
+                      <option value="9">Arts and Performance</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="contain">Date</label>
+                    <input class="form-control" type="text" />
+                  </div>
                 </form>
               </div>
             </div>
