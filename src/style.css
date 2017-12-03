@@ -1,6 +1,14 @@
 body {
     padding-top: 50px;
 }
+
+button {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 8px;
+  margin-left: 0px;
+}
+
 .dropdown.dropdown-lg .dropdown-menu {
     margin-top: 0px;
     padding: 6px 20px;
@@ -57,6 +65,27 @@ body {
 
 .hover {
   color: #0082BA !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.short-form {
+  max-width: 300px;
+}
+
+.form-control.short-form {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.right {
+  float: right;
+}
+
+.red {
+  background-color: #AA4444;
 }
 
 @media screen and (min-width: 500px) {

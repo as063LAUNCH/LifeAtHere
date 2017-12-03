@@ -70,11 +70,19 @@
 <div class="container-fluid">
   <table>
     <tr>
-      <button class="" onclick="shareEvent()">Share Event</button>
-      <button>Add to Calendar</button>
-      <button onclick="inviteFriend()">Invite Friends</button>
+      <button class="btn btn-default" onclick="shareEvent()">Share Event</button>
+      <button class="btn btn-default">Add to Calendar</button>
+      <button class="btn btn-default" onclick="inviteFriend()">Invite Friends</button>
     </tr>
   </table>
+  <div id="email_container" class="hidden">
+    <input id="user_email" class="form-control short-form" placeholder="youremail@website.com" onkeypress="unredify()"></input>
+    <input id="recipient_email" class="form-control short-form" placeholder="recipientemail@website.com" onkeypress="unredify()"></input>
+    <div style="max-width: 500px">
+      <textarea id="email_message" class="form-control" placeholder="Message message message..." style="width: 100% !important; max-height: 200px !important;"></textarea>
+      <button id="send_email_button" class="btn btn-default right" onclick="sendEmail()">Send Email</button>
+    </div>
+  </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

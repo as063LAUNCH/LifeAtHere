@@ -1,6 +1,7 @@
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 var LOGIN_URL = "https://myapi.bucknell.edu/framework/auth/signin/";
+var END_DATE = "0/0/0";
 const NUM_EVENTS = 10;
 
 function mapCurrentEvents(eventObj) {
@@ -72,11 +73,13 @@ function getEvents() {
   if (filters == "All Categories") {
     filters = "";
   }
-  filters += "&"; //used for backend split to qeurey on multiple conditions
-  filters += "3-1-2017-5-6-2018";
+  filters += "&"; //used for backend split to query on multiple conditions
+  date = document.getElementById("datepicker").value; //if no ending date, it will just be x-x-x-none-none-none
+  date += "/"; //used to seperate endDate aand startDate for backend parsing
+  date += END_DATE;
 
-
-  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + filters);
+  date = date.split("/").join("-");
+  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + filters + date);
   return JSON.parse(response);
 
   //httpGetAsynchronous("http://localhost:5000/eventsQuery/" + requestEnd);
@@ -122,3 +125,12 @@ function httpGetSynchronous(theUrl) {
   xmlHttp.send(null);
   return xmlHttp.responseText;
 }
+
+function loadEventsForDate(){
+  END_DATE = "0/0/0";
+  loadEventsSearch();
+}
+
+$(document).ready(function() {
+  $("#datepicker").datepicker();
+});
