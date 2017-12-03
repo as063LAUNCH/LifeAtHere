@@ -137,7 +137,6 @@ def queryEvents(tag):
   if (tagCatgeories != ""):
     filteredEvents = filterEventsByTag(filteredEvents, tagCatgeories)
 
-
   dateArray = conditions[1].split("-")
   monthStart = int(dateArray[0])
   dateStart = int(dateArray[1])
@@ -155,6 +154,7 @@ def queryEvents(tag):
     endDate = date(yearEnd, monthEnd, dateEnd) #Create the Ending Date object to filter by
 
   filteredEvents = filterEventsByTime(filteredEvents, startDate, endDate)
+  
   response = jsonify(filteredEvents)
   response.headers.add('Access-Control-Allow-Origin', '*')
   #print("SENDING RESPONSE")

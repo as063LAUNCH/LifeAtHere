@@ -8,7 +8,7 @@ function loadEventInfo() {
   var response = httpGetSynchronous("http://localhost:5000/eventQueryById/" + idString);
   var eventObj = JSON.parse(response);
   var date = new Date(eventObj["EventDate"]);
-  var dateString = getDateString(date.getUTCDay(), date.getDay(), date.getMonth(), date.getFullYear());
+  var dateString = getDateString(date.getDay(), date.getDate(), date.getMonth(), date.getFullYear());
   var imageUrl = getImageUrl(eventObj["Locations"][0]["Location"]);
 
   document.getElementById("event_image").src = imageUrl;
@@ -101,40 +101,40 @@ function getDateString(dayOfWeek, day, month, year) {
   }
   dateString += ", ";
   switch(month) {
-    case 1:
+    case 0:
       dateString += "January";
       break;
-    case 2:
+    case 1:
       dateString += "February";
       break;
-    case 3:
+    case 2:
       dateString += "March";
       break;
-    case 4:
+    case 3:
       dateString += "April";
       break;
-    case 5:
+    case 4:
       dateString += "May";
       break;
-    case 6:
+    case 5:
       dateString += "June";
       break;
-    case 7:
+    case 6:
       dateString += "July";
       break;
-    case 8:
+    case 7:
       dateString += "August";
       break;
-    case 9:
+    case 8:
       dateString += "September";
       break;
-    case 10:
+    case 9:
       dateString += "October";
       break;
-    case 11:
+    case 10:
       dateString += "November";
       break;
-    case 12:
+    case 11:
       dateString += "December";
       break;
     default:

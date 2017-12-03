@@ -3,9 +3,20 @@
 var LOGIN_URL = "https://myapi.bucknell.edu/framework/auth/signin/";
 var END_DATE = "0/0/0";
 const NUM_EVENTS = 10;
+const sortFunction = function(event1, event2) {
+  var date1 = new Date(event1["EventDate"]);
+  var date2 = new Date(event2["EventDate"]);
+  if (date1 > date2) {
+    return -1;
+  } else if (date1 < date2) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
 
 function mapCurrentEvents(eventObj) {
-  return [eventObj]
+  return [eventObj];
 }
 
 function logIn() {
@@ -17,37 +28,59 @@ function logIn() {
 }
 
 function updateEventButtonData(events) {
+  if (events.length == 0) {
+    document.getElementById("no_events_text").classList.remove("hidden");
+  } else {
+    if (!document.getElementById("no_events_text").classList.contains("hidden")) {
+      document.getElementById("no_events_text").classList.add("hidden");
+    }
+  }
   for (var i = 0; i < events.length; i += 1) {
-    var html = events[i]["Title"] + ": " + events[i]["StartTime"] + " - " + events[i]["EndTime"];
+    var date = new Date(events[i]["EventDate"]);
+    var html = events[i]["Title"] + ": " + getDateString(date.getDay(), date.getDate(), date.getMonth(), date.getFullYear()) + "; " + events[i]["StartTime"] + " - " + events[i]["EndTime"];
     document.getElementById("event" + i.toString()).innerHTML = html;
+    document.getElementById("event" + i.toString()).classList.remove("hidden");
     $('#event' + i.toString()).data("idNum", events[i]["Id"]);
+  }
+  for (var i = events.length; i < NUM_EVENTS; i += 1) {
+    document.getElementById("event" + i.toString()).classList.add("hidden");
   }
 }
 
-function renderEventButtonHtml() {
-  html = `<h2>Popular Events for Fall 2017</h2>`
+function renderEventButtonHtml(numEvents) {
+  html = `<h2>Popular Events for Fall 2017</h2>`;
+  html += `<h4 id="no_events_text" class="hidden" style="color:red">No events for your search :(</h2>`;
   for (var i = 0; i < NUM_EVENTS; i += 1) {
-    html += `
-    <div class="row">
-      <button id="event` + i.toString() + `" data-idNum="` + i.toString() + `" class="event-button" onClick="getEvent(this.id)" onmouseover="eventButtonHover(this.id)" onmouseleave="eventButtonLeave(this.id)"></button>
-    </div>`
+    if (i + 1 > numEvents) {
+      html += `
+      <div class="row">
+        <button id="event` + i.toString() + `" data-idNum="` + i.toString() + `" class="event-button hidden" onClick="getEvent(this.id)" onmouseover="eventButtonHover(this.id)" onmouseleave="eventButtonLeave(this.id)"></button>
+      </div>`;
+    } else {
+      html += `
+      <div class="row">
+        <button id="event` + i.toString() + `" data-idNum="` + i.toString() + `" class="event-button" onClick="getEvent(this.id)" onmouseover="eventButtonHover(this.id)" onmouseleave="eventButtonLeave(this.id)"></button>
+      </div>`;
+    }
   }
   document.getElementById("event-button-container").innerHTML = html;
 }
 
 function loadMainPage() {
-  renderEventButtonHtml();
   var events = getAllEvents();
-  updateEventButtonData(events.slice(0, NUM_EVENTS));
+  renderEventButtonHtml(events.length);
+  events.sort(sortFunction);
+  updateEventButtonData(events.slice(0, Math.min(NUM_EVENTS, events.length)));
 }
 
 function loadEventsSearch() {
   var events = getEvents();
-  updateEventButtonData(events.slice(0, NUM_EVENTS));
+  events.sort(sortFunction);
+  console.log(events);
+  updateEventButtonData(events.slice(0, Math.min(NUM_EVENTS, events.length)));
 }
 
 function eventButtonHover(eventButtonId) {
-  console.log("HOVERRRR");
   document.getElementById(eventButtonId).classList.add("hover");
 }
 
@@ -134,3 +167,76 @@ function loadEventsForDate(){
 $(document).ready(function() {
   $("#datepicker").datepicker();
 });
+
+function getDateString(dayOfWeek, day, month, year) {
+  dateString = "";
+  switch(dayOfWeek) {
+    case 0:
+      dateString = "Sunday";
+      break;
+    case 1:
+      dateString = "Monday";
+      break;
+    case 2:
+      dateString = "Tuesday";
+      break;
+    case 3:
+      dateString = "Wednesday";
+      break;
+    case 4:
+      dateString = "Thursday";
+      break;
+    case 5:
+      dateString = "Friday";
+      break;
+    case 6:
+      dateString = "Saturday";
+      break;
+    default:
+      dateString = "INVALID DAY";
+  }
+  dateString += ", ";
+  switch(month) {
+    case 0:
+      dateString += "January";
+      break;
+    case 1:
+      dateString += "February";
+      break;
+    case 2:
+      dateString += "March";
+      break;
+    case 3:
+      dateString += "April";
+      break;
+    case 4:
+      dateString += "May";
+      break;
+    case 5:
+      dateString += "June";
+      break;
+    case 6:
+      dateString += "July";
+      break;
+    case 7:
+      dateString += "August";
+      break;
+    case 8:
+      dateString += "September";
+      break;
+    case 9:
+      dateString += "October";
+      break;
+    case 10:
+      dateString += "November";
+      break;
+    case 11:
+      dateString += "December";
+      break;
+    default:
+      dateString += "Invalid month";
+      break;
+  }
+  dateString += " " + day.toString() + " " + year.toString();
+  return dateString;
+}
