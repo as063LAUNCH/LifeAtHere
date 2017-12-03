@@ -17,6 +17,7 @@ function loadEventInfo() {
   document.getElementById("time_start_end").innerHTML = eventObj["StartTime"] + " - " + eventObj["EndTime"];
   document.getElementById("location").innerHTML = eventObj["Locations"][0]["Location"];
   document.getElementById("location").href = eventObj["Locations"][0]["Link"];
+  initMap(eventObj["Latitude"], eventObj["Longitude"]);
   return true;
 }
 
@@ -240,6 +241,20 @@ function getImageUrl(location) {
     return "resources/images/default.jpg"
   }
 }
+//From google Maps api
+function initMap(latitude, longitude) {
+        var loc = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+        console.log(loc);
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 17,
+          center: loc
+        });
+        var marker = new google.maps.Marker({
+          position: loc,
+          map: map
+        });
+      }
+
 
 function httpGetSynchronous(theUrl) {
   var xmlHttp = new XMLHttpRequest();
