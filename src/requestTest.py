@@ -1,9 +1,12 @@
 import socket
 import requests
 import json
+import smtplib
+from email.mime.text import MIMEText
 from flask import Flask
 from flask import request
 from flask import jsonify
+from flask_cors import CORS
 from datetime import date
 
 ID = 'Id' # String
@@ -131,7 +134,7 @@ def queryAllEvents():
   response.headers.add('Access-Control-Allow-Origin', '*')
   #print("SENDING RESPONSE")
   #print(response)
-  return response;
+  return response
 
 @app.route('/eventsQuery/<tag>')
 def queryEvents(tag):
@@ -170,7 +173,7 @@ def queryEvents(tag):
   response.headers.add('Access-Control-Allow-Origin', '*')
   #print("SENDING RESPONSE")
   #print(response)
-  return response;
+  return response
 
 @app.route('/eventQueryById/<eventId>')
 def queryEventById(eventId):
@@ -179,7 +182,29 @@ def queryEventById(eventId):
   response.headers.add('Access-Control-Allow-Origin', '*')
   #print("SENDING RESPONSE")
   #print(response)
-  return response;
+  return response
 
+@app.route('/sendEmail/<emailInfo>')
+def sendEmail(emailInfo):
+  print(emailInfo)
+  parts = emailInfo.split("&")
+  sender = parts[0]
+  recipient = parts[1]
+  host = "localhost:8000"
+  message = parts[2] + '\n\n' + host + "/event.html?eventId" + parts[3]
+  print(message)
+  
+  msg = MIMEText(message);
+  
+  msg['Subject'] = "Check out this event!"
+  msg['From'] = sender
+  msg['To']= recipient
+  
+  s = smtplib.SMTP('localhost')
+  s.send_message(msg)
+  s.quit()
+  return "Success"
+
+CORS(app)
 if __name__ == '__main__':
     app.run()

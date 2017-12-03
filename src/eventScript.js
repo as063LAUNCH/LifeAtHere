@@ -54,7 +54,10 @@ function sendEmail() {
     document.getElementById("send_email_button").textContent = emailSafety;
     document.getElementById("send_email_button").classList.add("red");
   } else {
-    // Make email request.
+    var idString = decodeURIComponent(window.location.search);
+    idString = idString.substring("eventId=".length);
+    var request = "http://localhost:5000/sendEmail/" + sender + "&" + recipient + "&" + message + "&" + idString;
+    var response = httpGetSynchronous(request);
     document.getElementById("send_email_button").textContent = "Email Sent!";
     document.getElementById("send_email_button").disabled = true; // No double clicking asshole!
   }
@@ -63,7 +66,6 @@ function sendEmail() {
 // Following regex found online:
 var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 function checkEmailSafety(sender, recipient) {
-  console.log(sender, recipient);
   if (!emailRegex.test(sender)) {
     return "Bad Sender Email";
   } else if (!emailRegex.test(recipient)) {
