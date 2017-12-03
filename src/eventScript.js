@@ -30,6 +30,11 @@ function toggleHidden(elementId) {
 }
 
 function inviteFriend() {
+  if (document.getElementById("invite_friend").textContent == "Invite Friends") {
+    document.getElementById("invite_friend").textContent = "Hide";
+  } else {
+    document.getElementById("invite_friend").textContent = "Invite Friends";
+  }
   toggleHidden("email_container");
 }
 
