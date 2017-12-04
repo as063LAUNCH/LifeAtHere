@@ -13,7 +13,6 @@
 <link href="style.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 </head>
 <body onload="loadMainPage()">
 <nav style="background:#003082 !important" class="navbar navbar-expand-lg navbar-light bg-light">
@@ -96,9 +95,12 @@
   <p>See what's happening on your campus!</p> 
 </div>
 <div class = "container-fluid" id = "calender">
-<h2>Enter a date to see events for that day</h2>
+<h2>Enter a start date and end date to see events within this range</h2>
   <form>
-      <input id="datepicker" />
+      <label for="StartDate"/>Start Date</label>
+      <input type = "date" id="StartDate"/>
+      <label for="EndDate"/>End Date</label>
+      <input type = "date" id="EndDate"/>
       <button type="button" onclick="loadEventsForDate()">Enter</button>
   </form>
 </div>

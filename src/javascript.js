@@ -1,7 +1,9 @@
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 var LOGIN_URL = "https://myapi.bucknell.edu/framework/auth/signin/";
-var END_DATE = "0/0/0";
+var END_DATE = "0-0-0";
+var TODAY = new Date();
+
 const NUM_EVENTS = 10;
 const sortFunction = function(event1, event2) {
   var date1 = new Date(event1["EventDate"]);
@@ -107,12 +109,30 @@ function getEvents() {
     filters = "";
   }
   filters += "&"; //used for backend split to query on multiple conditions
-  date = document.getElementById("datepicker").value; //if no ending date, it will just be x-x-x-none-none-none
-  date += "/"; //used to seperate endDate aand startDate for backend parsing
-  date += END_DATE;
+  startDate = document.getElementById("StartDate").value;
+  endDate = document.getElementById("EndDate").value;
 
-  date = date.split("/").join("-");
-  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + filters + date);
+  if(startDate == ""){
+    startDate = (TODAY.getMonth()+1) +'-'+ TODAY.getDate() + '-' + TODAY.getFullYear();
+    console.log("here");
+  }else{
+    startDate = startDate.slice(5,7) + '-' + startDate.slice(8,10) + '-' + startDate.slice(0,4);
+  }
+
+  startDate += "-"; //used to seperate endDate aand startDate for backend parsing
+
+  if(endDate == ""){
+    endDate = END_DATE;
+  }else{
+    endDate = endDate.slice(5,7) + '-' + endDate.slice(8,10) + '-' + endDate.slice(0,4)
+  }
+
+
+  //response doesnt like '/' in the query so replacing / with -
+
+  console.log(startDate);
+  console.log(endDate);
+  var response = httpGetSynchronous("http://localhost:5000/eventsQuery/" + filters + startDate + endDate);
   return JSON.parse(response);
 
   //httpGetAsynchronous("http://localhost:5000/eventsQuery/" + requestEnd);
@@ -160,13 +180,9 @@ function httpGetSynchronous(theUrl) {
 }
 
 function loadEventsForDate(){
-  END_DATE = "0/0/0";
   loadEventsSearch();
 }
 
-$(document).ready(function() {
-  $("#datepicker").datepicker();
-});
 
 function getDateString(dayOfWeek, day, month, year) {
   dateString = "";
